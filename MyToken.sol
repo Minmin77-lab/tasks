@@ -10,11 +10,8 @@ contract MyToken is IERC20 {
     uint256 private _totalSupply;
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
-
     constructor(uint256 initialSupply) {
-        _totalSupply = initialSupply * (10 ** uint256(18));
-        _balances[msg.sender] = _totalSupply;;
-        emit Transfer(address(0), msg.sender, _totalSupply);
+        _mint(msg.sender, initialSupply); 
     }
 
     function totalSupply() public view override returns (uint256) {
@@ -58,5 +55,11 @@ contract MyToken is IERC20 {
         _allowances[sender][msg.sender] -= amount;
         emit Transfer(sender, recipient, amount);
         return true;
+    }
+    function _mint(address account, uint256 amount) internal {
+        require(account != address(0), "ERC20: mint to the zero address");
+        _totalSupply += amount * (10**uint256(18));
+        _balances[account] += amount * (10**uint256(18));
+        emit Transfer(address(0), account, amount * (10**uint256(18)));
     }
 }
