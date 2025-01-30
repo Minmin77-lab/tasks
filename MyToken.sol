@@ -12,8 +12,8 @@ contract MyToken is IERC20 {
     mapping(address => mapping(address => uint256)) private _allowances;
 
     constructor(uint256 initialSupply) {
-        _totalSupply = initialSupply * (10 * 18);
-        _balances[msg.sender] = initialSupply * (10 ** uint256(18));
+        _totalSupply = initialSupply * (10 ** uint256(18));;
+        _balances[msg.sender] = _totalSupply;;
         emit Transfer(address(0), msg.sender, _totalSupply);
     }
 
