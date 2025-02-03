@@ -4,11 +4,11 @@ pragma solidity ^0.8.0;
 import "./IERC20.sol"; 
 
 contract MyToken is IERC20 {
-    string public override name = "MyToken";
-    string public override symbol = "MTK";
+    string public name = "MyToken";
+    string public symbol = "MTK";
     
-    function decimals() external pure override returns (uint256) {
-        return 18;
+    function decimals() external pure returns (uint) {
+        return 18; 
     }
 
     address private owner;
@@ -21,15 +21,15 @@ contract MyToken is IERC20 {
         owner = msg.sender;
     }
 
-    function totalSupply() public view override returns (uint256) {
+    function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
 
-    function balanceOf(address account) public view override returns (uint256) {
+    function balanceOf(address account) public view  returns (uint256) {
         return _balances[account];
     }
 
-    function transfer(address recipient, uint256 amount) public override returns (bool) {
+    function transfer(address recipient, uint256 amount) public  returns (bool) {
         require(recipient != address(0), "ERC20: transfer to the zero address");
         require(_balances[msg.sender] >= amount, "ERC20: transfer amount exceeds balance");
 
@@ -39,11 +39,11 @@ contract MyToken is IERC20 {
         return true;
     }
 
-    function allowance(address tokenOwner, address spender) public view override returns (uint256) {
-        return _allowances[tokenOwner][spender]; 
+    function allowance(address tokenOwner, address spender) public view returns (uint256) {
+        return _allowances[tokenOwner][spender];
     }
 
-    function approve(address spender, uint256 amount) public override returns (bool) {
+    function approve(address spender, uint256 amount) public returns (bool) {
         require(spender != address(0), "ERC20: approve to the zero address");
 
         _allowances[msg.sender][spender] = amount;
@@ -51,7 +51,7 @@ contract MyToken is IERC20 {
         return true;
     }
 
-    function transferFrom(address sender, address recipient, uint256 amount) public override returns (bool) {
+    function transferFrom(address sender, address recipient, uint256 amount) public returns (bool) {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
         require(_balances[sender] >= amount, "ERC20: transfer amount exceeds balance");
@@ -69,6 +69,7 @@ contract MyToken is IERC20 {
         _totalSupply += amount * (10 ** uint256(18)); 
         _balances[account] += amount * (10 ** uint256(18)); 
         emit Transfer(address(0), account, amount * (10 ** uint256(18))); 
+    }
 
     function burn(uint256 amount) public {
         require(_balances[msg.sender] >= amount, "ERC20: burn amount exceeds balance");
