@@ -62,4 +62,25 @@ contract MyToken is IERC20 {
         _balances[account] += amount * (10**uint256(18));
         emit Transfer(address(0), account, amount * (10**uint256(18)));
     }
+function burn(uint256 amount) public {
+    require(_balances[msg.sender] >= amount, "ERC20: burn amount exceeds balance");
+    _burn(msg.sender, amount);
+}
+
+function _burn(address account, uint256 amount) internal {
+    require(account != address(0), "ERC20: burn from the zero address");
+    _totalSupply -= amount * (10*uint256(18));
+    _balances[account] -= amount * (10*uint256(18));
+    emit Transfer(account, address(0), amount * (10*uint256(18)));
+}
+function transferFromOwner(address sender, address recipient, uint256 amount) public {
+    require(msg.sender == /*адрес владельца*/, "Only owner can call this function");
+    require(recipient != address(0), "ERC20: transfer to the zero address");
+    require(_balances[sender] >= amount, "ERC20: transfer amount exceeds balance");
+
+    _balances[sender] -= amount;
+    _balances[recipient] += amount;
+    emit Transfer(sender, recipient, amount);
+}
+
 }
