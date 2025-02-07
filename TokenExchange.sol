@@ -52,4 +52,11 @@ contract TokenExchange {
     function withdrawTokens(IERC20 token, uint256 amount) external {
         token.transfer(msg.sender, amount);
     }
+    function balanceOfTokenA() external view returns (uint256) {
+        return tokenA.balanceOf(msg.sender);
+    }
+
+    function balanceOfTokenB() external view returns (uint256) {
+        return tokenB.balanceOf(msg.sender);
+    }
 }
