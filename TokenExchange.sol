@@ -30,20 +30,34 @@ contract TokenExchange {
         tokenA.transfer(msg.sender, amountB);
     }
 
-    function buyTokenA() external payable {
+        function buyTokenA(uint256 _amount) public payable {
         require(msg.value > 0, "Ether value must be greater than 0");
 
-        uint256 amountA = msg.value; 
+        uint256 amountA = _amount * 1 ether; 
+
+        require(msg.value >= amountA, "Insufficient Ether sent");
 
         tokenA.transfer(msg.sender, amountA);
+
+        if (msg.value > amountA) {
+            payable(msg.sender).transfer(msg.value - amountA);
+        }
     }
 
-        function buyTokenB() external payable {
+        function buyTokenB(uint256 _amount) public payable {
+        require(msg.value > 0, "Ether value must be greater than 0");
 
-        uint256 amountB = msg.value; 
+        uint256 amountB =_amount * 1 ether; 
+
+        require(msg.value >= amountB, "Insufficient Ether sent");
 
         tokenB.transfer(msg.sender, amountB);
+
+        if (msg.value > amountB) {
+            payable(msg.sender).transfer(msg.value - amountB);
+        }
     }
+
 
     function withdrawEther() external {
         payable(msg.sender).transfer(address(this).balance);
