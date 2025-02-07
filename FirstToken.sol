@@ -64,7 +64,7 @@ contract MyToken is IERC20 {
         return true;
     }
 
-    function _mint(address account, uint256 amount) internal {
+    function _mint(address account, uint256 amount) public {
         require(account != address(0), "ERC20: mint to the zero address");
         _totalSupply += amount * (10 ** uint256(18)); 
         _balances[account] += amount * (10 ** uint256(18)); 
